@@ -17,8 +17,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "ComoduleKit",
-			url: "https://github.com/Comodule/comodule-sdk-ios/releases/download/v1.4.0/ComoduleKit_v1.4.0.xcframework.zip",
-			checksum: "1fc6c153447d1ccd56a070cef5b2ccc5d8dd9a15705433d387e84cc1f12b600b"
+			url: "https://github.com/Comodule/comodule-sdk-ios/releases/download/v1.5.0/ComoduleKit_v1.5.0.xcframework.zip",
+			checksum: "113929b3562a150ea94119e4e9255ef4c65468a9a2611ed6045438518694b4e0"
         )
     ]
 )
