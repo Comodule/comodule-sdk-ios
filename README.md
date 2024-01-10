@@ -1,4 +1,4 @@
-# comodule-sdk-ios
+# Comodule iOS SDK
 
 The Comodule SDK is a versatile framework designed for native iOS applications, enabling seamless interaction with Comodule modules. It offers an efficient approach to access and modify vehicle information, alter settings, as well as perform data-to-cloud via Bluetooth connectivity. The SDK supports over-the-air firmware updates for the modules.
 
