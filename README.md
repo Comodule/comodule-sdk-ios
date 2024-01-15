@@ -2,12 +2,46 @@
 
 The Comodule SDK is a versatile framework designed for native iOS applications, enabling seamless interaction with Comodule modules over Bluetooth Low Energy. It offers an efficient approach to access and modify vehicle information, alter settings, as well as perform data-to-cloud. The SDK supports over-the-air firmware updates of the module firmware.
 
-## Getting Started
+## Table of contents
+
+- [Getting Started](#getting-started)
+  - [Adding Comodule SDK as a dependency](#adding-comodule-sdk-as-a-dependency)
+    - [Swift Package Manager](#swift-package-manager)
+    - [Direct donwload](#direct-download)
+- [Using the framework](#using-the-framework)
+  - [Prepare the project](#prepare-the-project)
+  - [Import and configure the framework](#import-and-configure-the-framework)
+  - [Add API key](#add-api-key)
+- [Understanding the SDK principles](#understanding-the-sdk-principles)
+  - [Module BLE connectivity](#module-ble-connectivity)
+    - [Discovering modules](#discovering-modules)
+    - [Connecting to module and module status](#connecting-to-module-and-module-status)
+    - [Disconnecting from a module](#disconnecting-from-a-module)
+  - [Vehicle properties](#vehicle-properties)
+    - [Discovering what the module is able to do](#discovering-what-the-module-is-able-to-do)
+    - [Property types](#property-types)
+    - [Subscribing to Range property value](#subscribing-to-range-property-value)
+    - [Subscribing to State property value](#subscribing-to-state-property-value)
+    - [Subscribing to Raw property value](#subscribing-to-raw-property-value)
+  - [Writing properties](#writing-properties)
+    - [Write Range property](#write-range-property)
+    - [Write State property](#write-state-property)
+    - [Write Raw property](#write-raw-property)
+  - [Firmware update](#firmware-update)
+    - [Preparations and current firmware info](#preparations-and-current-firmware-info)
+    - [Firmware update status](#firmware-update-status)
+    - [Starting Firmware update](#starting-firmware-update)
+  - [What else can the SDK do?](#what-else-can-the-sdk-do)
+    - [Logging](#logging)
+    - [Clearing cache](#clearing-cache)
+- [Need help or encountering issues?](#need-help-or-encountering-issues)
+
+# Getting Started
 This README is intended for developers who are interested in implementing the Comodule SDK into their project. 
 
-### Adding Comodule SDK as a dependency
+## Adding Comodule SDK as a dependency
 
-#### Swift Package Manager
+### Swift Package Manager
 
 Comodule SDK can be consumed via Swift Package Manager. This can be done in Xcode by navigating to the project settings `Package Dependencies` section. Use the repository URL (https://github.com/Comodule/comodule-sdk-ios) to search for the package. Visit [Releases](https://github.com/Comodule/comodule-sdk-ios/releases) to see which SDK versions are available. We recommend always using the latest version of the SDK.
 
@@ -28,15 +62,15 @@ let package = Package(
 )
 ```
 
-#### Direct download
+### Direct download
 It is possible to use the Comodule SDK `.xcframework` directly in your project. To do so, visit [Releases](https://github.com/Comodule/comodule-sdk-ios/releases) to download the suitable SDK version.
 
-## Using the framework
+# Using the framework
 
-### Prepare the project
+## Prepare the project
 Comodule SDK uses Bluetooth LE accessories background capability. This has to be enabled in the target Capabilities section. Additionally, make sure the project `Info.plist` file includes `NSBluetoothAlwaysUsageDescription` key with a proper message that tells the user why the app needs access to Bluetooth. 
 
-### Import and configure the framework
+## Import and configure the framework
 To start using the framework, import it.
 ```swift
 import ComoduleKit
@@ -58,18 +92,15 @@ func application(
 
 Using the `.configure()` method uses the default launch options. To define your own, use the `.configure(options: ...)` method instead. 
 
-### Add API key
+## Add API key
 Make sure to add the API key to ensure that Comodule Kit can function properly. This can be done with the `.configure(options: ...)` method or by calling `Comodule.setApiKey(key:)` method.
 
-## Need help or encountering issues?
-Got questions about Comodule solutions or the SDK implementation? Just fill out our [Contact form](https://www.comodule.com/contact).
-
-## Understanding the SDK principles
+# Understanding the SDK principles
 The following section deals with the functionality of the SDK. It covers module discovery, connectivity, module (or vehicle) properties as well as additional functionality like firmware updates.
 
-### Module BLE connectivity
+## Module BLE connectivity
 
-#### Discovering modules
+### Discovering modules
 
 In order to connecto to a Comodule module, it is necessary to first discover it.
 
@@ -101,7 +132,7 @@ The serial of the module can be used to connect to it over BLE. The name is main
 
 Do note that if any device is already connected to a nearby Comodule module over BLE, it can not be discovered or connected to due to BLE limitations. The other connection needs to be terminated first.
 
-#### Connecting to module and module status
+### Connecting to module and module status
 
 Once a CMModule serial has been obtained it is possible to connect to the module.
 To do so, start by subscribing to the module connection status publisher: 
@@ -142,17 +173,17 @@ Comodule.connect(
 )
 ```
 
-#### Disconnecting from a module
+### Disconnecting from a module
 
 Module can be disconnected by calling the following command:
 ```swift
 Comodule.disconnectModule()
 ```
 
-### Vehicle properties
+## Vehicle properties
 This section describes how different properties can be read out from the module over BLE and how these properties can be modified. Properties can be something simple like a read-only property of vehicle speed, state of charge or odometer. These properties can also be writable making them essentially a vehcle setting - turning lights on and off, updating motor assist levels or locking the vehicle.
 
-#### Discovering what the module is able to do
+### Discovering what the module is able to do
 
 There is a method that is mainly used to discover which properties the vehicle has available for implementation:
 ```swift
@@ -190,7 +221,7 @@ case .raw:
 }
 ```
 
-#### Property types
+### Property types
 
 Range property - This property is expressed within a range. For example: "State of charge" could be a range-type property that has a value inbetween a range of 0% and 100%. 
 
@@ -198,7 +229,7 @@ States property - This property is expressed by a state. For example: "Lights" c
 
 Raw bytes property - This property is expressed by raw bytes. For example: "Motor serial" could be a raw-bytes-type property that outputs `Data` directly which can be translated into a `String`. These properties are flexible types that are used in case other property types do not fit the situation. Raw bytes properties can output up to 8 bytes of data. 
 
-#### Subscribing to Range property value
+### Subscribing to Range property value
 
 To start receiving a range-type property value, subscribe to it:
 
@@ -238,7 +269,7 @@ Comodule
 	.store(in: &subscriptions)
 ```
 
-#### Subscribing to State property value
+### Subscribing to State property value
 
 To start receiving a range-type property value, subscribe to it:
 
@@ -262,7 +293,7 @@ State property has the following values associated with it:
 - `access` - Defines if the property is read-only, write-only or read-write. Comes with associated relevant read and/or write data for the property type.
 - `info` - Contains a CMProperty object with the relevant property info like `identifier` and `unitIdentifier`.
 
-#### Subscribing to Raw property value
+### Subscribing to Raw property value
 
 To start receiving a range-type property value, subscribe to it:
 
@@ -285,10 +316,10 @@ Raw property has the following values associated with it:
 - `access` - Defines if the property is read-only, write-only or read-write. Comes with associated relevant read and/or write data for the property type.
 - `info` - Contains a CMProperty object with the relevant property info like `identifier` and `unitIdentifier`.
 
-### Writing properties
+## Writing properties
 A property value can be updated if the property is writable. A property is writable if `CMProperty` object `writable` value is `true`, or property `access` value is either `readWrite` or `write`.
 
-#### Write Range property
+### Write Range property
 
 To write Range property value, use the `setProperty` method:
 ```swift
@@ -312,7 +343,7 @@ Comodule
 
 Limits for writing (minimum value, maximum value) are defined in property `access` or `CMRangeProperty` object.
 
-#### Write State property
+### Write State property
 
 To write State property value, use the `setProperty` method. 
 It is possible to either provide an identifier of a valid state:
@@ -357,7 +388,7 @@ Comodule
 
 Limits for writing (available states) are defined in property `access` or `CMStateProperty` object.
 
-#### Write Raw property
+### Write Raw property
 
 It is possible to write raw bytes into the module if a property allows it:
 ```swift
@@ -381,10 +412,10 @@ Comodule
 
 Limits for writing (number of bytes) are defined in property `access`.
 
-### Firmware update
+## Firmware update
 It is possible to use the SDK to update the module or vehicle firmware.
 
-#### Preparations and current firmware info
+### Preparations and current firmware info
 
 Firmware update has to be prepared and validated by the Comodule team. If no firmware update has been set up, the SDK will say that the module is up to date. Firmware updates are mostly provided for Comodule modules but in some cases also to update the firmware of vehicle components. 
 
@@ -412,7 +443,7 @@ Firmware info output comes in the form of `CMFirmwareVersionInfo` object. This o
 - `externalComponents` - Versions of non-Comodule vehicle components.
 - `dataToCloud` - Defines if this module performs data-to-cloud. Only supperted on BLE-only modules (GSM modules perform data-to-cloud over GSM).
 
-#### Firmware update status
+### Firmware update status
 
 Every time a valid BLE connection is made the SDK makes sure if an update is available.
 To access this info, subscribe to the firmware update status publisher:
@@ -436,7 +467,7 @@ Comodule
 	}
 ```
 
-#### Starting Firmware update
+### Starting Firmware update
 
 If a firmware update is available for a given connected module, it is possible to start the update:
 ```swift
@@ -448,9 +479,9 @@ While a firmware update is ongoing, it is not possible to write module propertie
 The update might cause the module to restart, this is not an issue. 
 We recommend using debounce when handling firmware update ongoing status to make sure that the update has completed even if a restart occurs. The SDK is unable to determine firmware update status while module is not connected.
 
-### What else can the SDK do?
+## What else can the SDK do?
 
-#### Logging
+### Logging
 
 The SDK logs info, warnings and errors. It is possible to access these logs once an event has already occurred.
 The SDK caches the last 250 log entries. 
@@ -465,7 +496,7 @@ To clear the cached log entries, use:
 Comodule.clearLogs()
 ```
 
-#### Clearing cache
+### Clearing cache
 
 Comodule SDK caches some vehicle related info to provide a faster handshake during the connection and allow offline use within reason. 
 
@@ -476,4 +507,5 @@ In some edge cases, it might be necessary to clear this cache. To do so, call th
 Comodule.clearCache()
 ```
 
-
+# Need help or encountering issues?
+Got questions about Comodule solutions or the SDK implementation? Just fill out our [Contact form](https://www.comodule.com/contact).
