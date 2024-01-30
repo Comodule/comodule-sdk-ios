@@ -102,7 +102,7 @@ The following section deals with the functionality of the SDK. It covers module 
 
 ### Discovering modules
 
-In order to connecto to a Comodule module, it is necessary to first discover it.
+In order to connect to a Comodule module, it is necessary to first discover it.
 
 First, subscribe to the discovered modules publisher:
 ```swift
@@ -181,7 +181,7 @@ Comodule.disconnectModule()
 ```
 
 ## Vehicle properties
-This section describes how different properties can be read out from the module over BLE and how these properties can be modified. Properties can be something simple like a read-only property of vehicle speed, state of charge or odometer. These properties can also be writable making them essentially a vehcle setting - turning lights on and off, updating motor assist levels or locking the vehicle.
+This section describes how different properties can be read out from the module over BLE and how these properties can be modified. Properties can be something simple like a read-only property of vehicle speed, state of charge or odometer. These properties can also be writable making them essentially a vehicle setting - turning lights on and off, updating motor assist levels or locking the vehicle.
 
 ### Discovering what the module is able to do
 
