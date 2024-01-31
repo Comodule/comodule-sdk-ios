@@ -158,7 +158,7 @@ Comodule
 				// Connecting substate where a serial with the provided serial has been found
 				// and the SDK has detected an ongoing firmware update
 			}
-		case let .connected(moduleName, moduleSerial, _):
+		case let .connected(moduleName, moduleSerial):
 			// Connection state where the module is fully connected over BLE and operational
 		}
 	}
