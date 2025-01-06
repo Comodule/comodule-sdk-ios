@@ -84,7 +84,13 @@ func application(
 ) -> Bool {
 	
 	// Other code
-	Comodule.configure()
+	Comodule.configure(
+		options: .init(
+			apiKey: /* API KEY HERE */,
+			logToConsole: true / false,
+			logLevels: [.error, .warning, .info]
+		)
+	)
 	Comodule.application(didFinishLaunchingWithOptions: launchOptions)
 	return true
 }
