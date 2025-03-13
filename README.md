@@ -198,9 +198,14 @@ Comodule
 	.sink { [weak self] result in
 		switch result {
 		case .notAvailable:
-			// Module outputs no properties. This result is commond when no module is connected.
+			// Module is currently outputting no properties. 
+			// This result is common when the module is disconnected.
+			break
 		case let .available(properties):
-			// Module outputs properties
+			// Module is outputting properties
+			for property in properties {
+				print("Available property: \(property.identifier)")
+			}
 		}
 	}
 ```
@@ -372,7 +377,7 @@ Comodule
 	)
 ```
 
-Or set the state directly if there is areference to it:
+Or set the state directly if there is a reference to it:
 ```swift
 Comodule
 	.setProperty(
