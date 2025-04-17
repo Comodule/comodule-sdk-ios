@@ -174,7 +174,7 @@ Once subscribed to the connection state publisher, connect to the device:
 ```swift
 Comodule.connect(
 	serial: /module serial/, // Serial of the module
-	secret: /module secret/, // Secret key of the module. This is used in cases where the module BLE connectivity is guarded with a secret key. Can be null if default key is used.
+	secret: /module secret/, // Private key of the module as HEX string.
 	completion: { ... } // Returns success once connected or error if the connection fails
 )
 ```
