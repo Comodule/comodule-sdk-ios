@@ -76,7 +76,7 @@ To start using the framework, import it.
 import ComoduleKit
 ```
 
-In `AppDelegate` `application` `didFinishLaunchingWithOptions` method, make sure to configure Comodule Kit. 
+In `AppDelegate` `application` `didFinishLaunchingWithOptions` method, make sure to configure Comodule Kit. When `prepareCBCentralManager` is `true` then CBCentralManager is started right away. If Bluetooth permissions are not given yet, this will prompt Bluetooth permissions. If this is not the intended behaviour, call the `prepareCBCentralManager` method instead.
 ```swift
 func application(
 	_ application: UIApplication,
@@ -88,7 +88,8 @@ func application(
 		options: .init(
 			apiKey: /* API KEY HERE */,
 			logToConsole: true / false,
-			logLevels: [.error, .warning, .info]
+			logLevels: [.error, .warning, .info],
+			prepareCBCentralManager: true / false
 		)
 	)
 	Comodule.application(didFinishLaunchingWithOptions: launchOptions)
